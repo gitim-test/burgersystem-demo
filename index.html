@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BurgerSystem - Cliente</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-white">
+        <div class="container py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">B</span>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-900">BurgerSystem</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" onclick="showView('client')" class="text-orange-500 font-medium">Cliente</a>
+                    <a href="#" onclick="showView('admin')">Admin</a>
+                    <a href="#" onclick="showView('kitchen')">Cozinha</a>
+                    <a href="#" onclick="showView('counter')">Balcão</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-8">
+        <!-- Cliente -->
+        <section id="client" class="grid grid-cols-3">
+            <div>
+                <h2 class="font-semibold text-gray-900 mb-4">Categorias</h2>
+                <div class="space-y-3">
+                    <div class="category-card" onclick="alert('Filtrar por Hambúrgueres')">
+                        <h3 class="font-medium">Hambúrgueres</h3>
+                        <p class="text-sm text-gray-500">Clássicos e especiais</p>
+                    </div>
+                    <div class="category-card" onclick="alert('Filtrar por Acompanhamentos')">
+                        <h3 class="font-medium">Acompanhamentos</h3>
+                        <p class="text-sm text-gray-500">Batatas, nuggets</p>
+                    </div>
+                    <div class="category-card" onclick="alert('Filtrar por Bebidas')">
+                        <h3 class="font-medium">Bebidas</h3>
+                        <p class="text-sm text-gray-500">Refrigerantes e sucos</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-2">
+                <h2 class="font-semibold text-gray-900 mb-4">Produtos</h2>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="product-card" onclick="addToCart('Burger Clássico', 29.90)">
+                        <h3 class="font-medium">Burger Clássico</h3>
+                        <p class="text-sm text-gray-600">Hambúrguer, alface, tomate, cheddar</p>
+                        <p class="font-bold text-orange-500 mt-1">R$ 29,90</p>
+                    </div>
+                    <div class="product-card" onclick="addToCart('Burger Bacon', 34.90)">
+                        <h3 class="font-medium">Burger Bacon</h3>
+                        <p class="text-sm text-gray-600">Com bacon e cebola</p>
+                        <p class="font-bold text-orange-500 mt-1">R$ 34,90</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border">
+                    <h3 class="font-semibold mb-4">Carrinho</h3>
+                    <div id="cart-items"></div>
+                    <div class="flex justify-between pt-4 border-t">
+                        <span>Total: R$ <span id="cart-total">0,00</span></span>
+                        <button onclick="placeOrder()" class="btn btn-primary">Finalizar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin -->
+        <section id="admin" class="hidden">
+            <h2 class="text-xl font-semibold mb-6">Painel Administrativo</h2>
+            <div class="flex mb-6">
+                <div class="tab tab-active" onclick="showAdminTab('products')">Produtos</div>
+                <div class="tab tab-inactive" onclick="showAdminTab('categories')">Categorias</div>
+                <div class="tab tab-inactive" onclick="showAdminTab('orders')">Pedidos</div>
+            </div>
+
+            <div id="admin-products">
+                <h3 class="font-semibold mb-4">Gerenciar Produtos</h3>
+                <p>Lista de produtos (funcionalidade completa no sistema real)</p>
+            </div>
+            <div id="admin-categories" class="hidden">
+                <h3 class="font-semibold mb-4">Gerenciar Categorias</h3>
+                <p>Funcionalidade de categorias</p>
+            </div>
+            <div id="admin-orders" class="hidden">
+                <h3 class="font-semibold mb-4">Histórico de Pedidos</h3>
+                <div id="admin-order-list"></div>
+            </div>
+        </section>
+
+        <!-- Cozinha -->
+        <section id="kitchen" class="hidden">
+            <h2 class="text-xl font-semibold mb-6">Cozinha</h2>
+            <div id="kitchen-orders"></div>
+        </section>
+
+        <!-- Balcão -->
+        <section id="counter" class="hidden text-center">
+            <h2 class="text-xl font-semibold mb-6">Balcão de Entrega</h2>
+            <div id="counter-orders"></div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="success-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">Pedido Realizado!</h3>
+            <p>Seu pedido <strong>#<span id="success-order-number">001</span></strong> foi registrado.</p>
+            <button onclick="closeModal()" class="btn btn-primary w-full mt-4">Fechar</button>
+        </div>
+    </div>
+
+    <footer class="container">
+        <p>BurgerSystem - Sistema para Hamburguerias © 2025</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
